@@ -1,25 +1,51 @@
 import express from "express";
-import User from "./routes/user";
-import Auth from "./routes/auth";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+
+import UserRouter from "./routes/user";
+import AuthRouter from "./routes/auth";
 
 const app = express();
 
+/* -------------------- CONFIG -------------------- */
+
+const allowedOrigins = ["http://localhost:6000", "http://localhost:7000"];
+
+/* -------------------- MIDDLEWARE -------------------- */
+
+// CORS (clean + scalable)
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/auth", Auth);
-app.use("/users", User);
+/* -------------------- ROUTES -------------------- */
 
-app.get("/", (_req, res) => {
-  res.json({
-    message: "API works",
-  });
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
 });
 
-app.use((req, res) => {
+app.use("/auth", AuthRouter);
+app.use("/users", UserRouter);
+
+/* -------------------- 404 -------------------- */
+
+app.use((_req, res) => {
   res.status(404).json({
     message: "Route not found",
-    method: req.method,
-    path: req.path,
   });
 });
 

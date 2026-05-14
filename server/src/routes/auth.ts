@@ -8,15 +8,16 @@ import { checkAuth } from "../middleware/check-auth";
 const router = Router();
 
 const generateToken = (userId: string) => {
-  return jwt.sign(
-    {
-      sub: userId,
-    },
-    process.env.JWT_SECRET as string,
-    {
-      expiresIn: "7d",
-    },
-  );
+  return jwt.sign({ sub: userId }, process.env.JWT_SECRET as string, {
+    expiresIn: "7d",
+  });
+};
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax" as const,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
 router.post("/register", async (req, res) => {
@@ -46,11 +47,19 @@ router.post("/register", async (req, res) => {
       role: "user",
     });
 
-    res.status(201).json({
-      token: generateToken(user._id.toString()),
+    const token = generateToken(user._id.toString());
+
+    res.cookie("token", token, cookieOptions);
+
+    return res.status(201).json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -64,6 +73,7 @@ router.post("/login", async (req, res) => {
         errors: result.error.flatten().fieldErrors,
       });
     }
+
     const { email, password } = result.data;
 
     const user = await User.findOne({ email });
@@ -76,20 +86,36 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res.json({
-      token: generateToken(user._id.toString()),
+    const token = generateToken(user._id.toString());
+
+    res.cookie("token", token, cookieOptions);
+
+    return res.json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
-router.get("/me", checkAuth, async (req, res) => {
-  try {
-    res.status(200).json({ user: req.user });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err });
+router.post("/logout", (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(400).json({ message: "Already logged out" });
   }
+
+  res.clearCookie("token");
+
+  return res.json({ message: "Logged out" });
+});
+
+router.get("/me", checkAuth, (req, res) => {
+  return res.json({ user: req.user });
 });
 
 export default router;
