@@ -9,7 +9,9 @@ const app = express();
 
 /* -------------------- CONFIG -------------------- */
 
-const allowedOrigins = ["http://localhost:6000", "http://localhost:7000"];
+const allowedOrigins = [process.env.ADMIN_URL, process.env.CLIENT_URL].filter(
+  Boolean,
+) as string[];
 
 /* -------------------- MIDDLEWARE -------------------- */
 

@@ -53,7 +53,7 @@ router.post("/register", async (req, res) => {
 
     return res.status(201).json({
       user: {
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
       },
@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
 
     return res.json({
       user: {
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
       },
@@ -115,7 +115,9 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/me", checkAuth, (req, res) => {
-  return res.json({ user: req.user });
+  return res.json({
+    user: req.user,
+  });
 });
 
 export default router;
