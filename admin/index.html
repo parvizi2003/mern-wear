@@ -2,12 +2,76 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>vite-app</title>
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      #startup-loader {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        gap: 1rem;
+        background: white;
+        color: black;
+        transition: opacity 0.2s ease;
+        z-index: 9999;
+      }
+
+      .logo {
+        margin-left: auto;
+        margin-right: auto;
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        background: black;
+        color: white;
+      }
+
+      .loader-text {
+        font-size: 14px;
+        color: #666;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        #startup-loader {
+          background: #09090b;
+          color: white;
+        }
+
+        .logo {
+          background: white;
+          color: black;
+        }
+
+        .loader-text {
+          color: #a1a1aa;
+        }
+      }
+    </style>
   </head>
+
   <body>
+    <div id="startup-loader">
+      <div class="logo">logo</div>
+      <div class="loader-text">Loading, please wait.</div>
+    </div>
+
     <div id="root"></div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
