@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Home, RotateCcw } from "lucide-react"
 import { Link } from "react-router-dom"
 
-export function NotFound() {
+export default function NotFound() {
   return (
     <div className="flex h-svh items-center justify-center">
       <div>

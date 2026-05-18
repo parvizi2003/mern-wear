@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useUser } from "@/api/auth/use-user"
 
-export function ProtectedRoute() {
+export default function ProtectedRoute() {
   const { user, isLoading } = useUser()
 
   if (isLoading) return null
