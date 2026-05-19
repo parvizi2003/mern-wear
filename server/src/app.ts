@@ -2,8 +2,10 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import UserRouter from "./routes/user";
-import AuthRouter from "./routes/auth";
+import UserRouter from "./routes/user-routes";
+import AuthRouter from "./routes/auth-routes";
+import CategoryRouter from "./routes/category-routes";
+import ProductRouter from "./routes/product-routes";
 
 const app = express();
 
@@ -33,6 +35,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
 
 /* -------------------- ROUTES -------------------- */
 
@@ -42,6 +45,8 @@ app.get("/health", (_req, res) => {
 
 app.use("/auth", AuthRouter);
 app.use("/users", UserRouter);
+app.use("/categories", CategoryRouter);
+app.use("/products", ProductRouter);
 
 /* -------------------- 404 -------------------- */
 

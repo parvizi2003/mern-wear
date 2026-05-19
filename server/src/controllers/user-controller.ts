@@ -1,20 +1,21 @@
-import { Router } from "express";
 import User from "../models/user";
 import bcrypt from "bcryptjs";
-import { isAdmin } from "../middleware/is-admin";
+import type { Request, Response } from "express";
 
-const router = Router();
+/* ---------------- GET ALL USERS ---------------- */
 
-router.get("/", isAdmin, async (req, res) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find().select("-password");
-    res.json(users);
+    return res.json(users);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err });
+    return res.status(500).json({ message: "Server error" });
   }
-});
+};
 
-router.get("/:id", isAdmin, async (req, res) => {
+/* ---------------- GET ONE USER ---------------- */
+
+export const getUserById = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
 
@@ -22,17 +23,20 @@ router.get("/:id", isAdmin, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(user);
+    return res.json(user);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
-});
+};
 
-router.post("/", isAdmin, async (req, res) => {
+/* ---------------- CREATE USER ---------------- */
+
+export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     }
@@ -46,18 +50,20 @@ router.post("/", isAdmin, async (req, res) => {
       role,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       id: user._id,
       name: user.name,
       email: user.email,
       role: user.role,
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
-});
+};
 
-router.delete("/:id", isAdmin, async (req, res) => {
+/* ---------------- DELETE USER ---------------- */
+
+export const deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 
@@ -65,10 +71,8 @@ router.delete("/:id", isAdmin, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ message: "User deleted" });
+    return res.json({ message: "User deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
-});
-
-export default router;
+};

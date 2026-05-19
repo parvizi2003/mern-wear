@@ -1,11 +1,9 @@
-import { Router } from "express";
 import User from "../models/user";
+import { userDTO } from "../dtos/user-dto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { loginSchema, registerSchema } from "../validators/auth-validator";
-import { checkAuth } from "../middleware/check-auth";
-
-const router = Router();
+import type { Request, Response } from "express";
 
 const generateToken = (userId: string) => {
   return jwt.sign({ sub: userId }, process.env.JWT_SECRET as string, {
@@ -20,7 +18,9 @@ const cookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
-router.post("/register", async (req, res) => {
+/* ---------------- REGISTER ---------------- */
+
+export const register = async (req: Request, res: Response) => {
   try {
     const result = registerSchema.safeParse(req.body);
 
@@ -34,6 +34,7 @@ router.post("/register", async (req, res) => {
     const { name, email, password } = result.data;
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -52,18 +53,16 @@ router.post("/register", async (req, res) => {
     res.cookie("token", token, cookieOptions);
 
     return res.status(201).json({
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+      user: userDTO(user),
     });
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
   }
-});
+};
 
-router.post("/login", async (req, res) => {
+/* ---------------- LOGIN ---------------- */
+
+export const login = async (req: Request, res: Response) => {
   try {
     const result = loginSchema.safeParse(req.body);
 
@@ -77,11 +76,13 @@ router.post("/login", async (req, res) => {
     const { email, password } = result.data;
 
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -91,18 +92,16 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, cookieOptions);
 
     return res.json({
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+      user: userDTO(user),
     });
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
   }
-});
+};
 
-router.post("/logout", (req, res) => {
+/* ---------------- LOGOUT ---------------- */
+
+export const logout = (req: Request, res: Response) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -112,12 +111,12 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token");
 
   return res.json({ message: "Logged out" });
-});
+};
 
-router.get("/me", checkAuth, (req, res) => {
+/* ---------------- ME ---------------- */
+
+export const me = (req: Request, res: Response) => {
   return res.json({
     user: req.user,
   });
-});
-
-export default router;
+};

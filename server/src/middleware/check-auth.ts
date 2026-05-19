@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
+import { userDTO } from "../dtos/user-dto";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -21,7 +22,9 @@ export const checkAuth = async (
     const token = req.cookies?.token;
 
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
@@ -29,13 +32,17 @@ export const checkAuth = async (
     const user = await User.findById(decoded.sub).select("-password");
 
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({
+        message: "User not found",
+      });
     }
 
-    req.user = user;
+    req.user = userDTO(user);
 
     next();
   } catch {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(401).json({
+      message: "Invalid token",
+    });
   }
 };

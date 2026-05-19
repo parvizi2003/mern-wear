@@ -1,10 +1,9 @@
-import { HydratedDocument } from "mongoose";
-import { IUser } from "../models/user";
+import type { UserDTO } from "../dtos/user-dto";
 
 declare global {
   namespace Express {
     interface Request {
-      user?: HydratedDocument<IUser>;
+      user?: UserDTO;
     }
   }
 }
