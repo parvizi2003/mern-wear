@@ -144,16 +144,25 @@ export default async function seedSuits() {
       slug: suit.slug,
       price: suit.price,
       category: category._id,
+      variants: [],
     });
 
+    const variantIds = [];
+
     for (const variant of suit.variants) {
-      await ProductVariant.create({
+      const createdVariant = await ProductVariant.create({
         product: product._id,
         color: variant.color,
         image: variant.image,
         sizes: variant.sizes,
       });
+
+      variantIds.push(createdVariant._id);
     }
+
+    product.variants = variantIds;
+
+    await product.save();
 
     console.log(`Product ${suit.name} created`);
   }

@@ -12,6 +12,13 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
+    variants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductVariant",
+      },
+    ],
+
     price: { type: Number, required: true },
   },
   { timestamps: true },
