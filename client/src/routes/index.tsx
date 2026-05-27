@@ -1,4 +1,4 @@
-import HeaderLayout from "@/layouts/app-layout"
+import AppLayout from "@/layouts/app-layout"
 import Category from "@/pages/Category"
 import Home from "@/pages/Home"
 import Login from "@/pages/Login"
@@ -6,6 +6,7 @@ import NotFound from "@/pages/Not-Found"
 import Register from "@/pages/Register"
 import { createBrowserRouter } from "react-router-dom"
 import PublicOnlyRoute from "./public-only-route"
+import Product from "@/pages/Product"
 
 const Router = createBrowserRouter([
   {
@@ -25,10 +26,11 @@ const Router = createBrowserRouter([
 
   {
     path: "/",
-    element: <HeaderLayout />,
+    element: <AppLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "category/:slug", element: <Category /> },
+      { path: "categories/:categorySlug", element: <Category /> },
+      { path: "products/:productSlug", element: <Product /> },
     ],
   },
   {

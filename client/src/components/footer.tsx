@@ -2,9 +2,11 @@ import { Link } from "react-router-dom"
 
 import Container from "./container"
 import { Logo } from "./logo"
-import { NAV_ITEMS } from "./sidebar"
+import { useCategories } from "@/api/categories/use-categories"
 
 export default function Footer() {
+  const { categories } = useCategories()
+
   return (
     <footer className="border-t bg-muted/20">
       <Container className="py-10">
@@ -23,13 +25,13 @@ export default function Footer() {
               <h3 className="font-semibold">Navigation</h3>
 
               <nav className="flex flex-col gap-2">
-                {NAV_ITEMS.map((item) => (
+                {categories.map((item) => (
                   <Link
-                    key={item.href}
-                    to={item.href}
+                    key={item.id}
+                    to={`/categories/${item.slug}`}
                     className="text-muted-foreground transition hover:text-foreground"
                   >
-                    {item.label}
+                    {item.name}
                   </Link>
                 ))}
               </nav>

@@ -1,12 +1,18 @@
 import Footer from "@/components/footer"
 import Header from "@/components/header"
-import { Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import { Outlet, useLocation } from "react-router-dom"
 
-export default function HeaderLayout() {
+export default function AppLayout() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
   return (
     <>
       <Header />
-      <main>
+      <main className="mt-15 min-h-[calc(100vh-60px)]">
         <Outlet />
       </main>
       <Footer />
