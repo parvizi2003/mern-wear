@@ -1,0 +1,88 @@
+[
+  {
+    "name": "Suit Pants",
+    "description": "Tailored suit pants designed for a sharp and modern fit, perfect for both formal and semi-formal styling.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/suit_pants_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "navy blue",
+          "code": "#2b3e5e"
+        },
+        "image": "/uploads/products/suit_pants_navy_blue.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#4d565b"
+        },
+        "image": "/uploads/products/suit_pants_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Tweed Suit Pants",
+    "description": "Textured wool-inspired trousers with a refined vintage aesthetic and structured silhouette.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "brown",
+          "code": "#543d2b"
+        },
+        "image": "/uploads/products/tweed_suit_pants_brown.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#212727"
+        },
+        "image": "/uploads/products/tweed_suit_pants_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "orange",
+          "code": "#77232c"
+        },
+        "image": "/uploads/products/tweed_suit_pants_orange.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,9 +1,9 @@
-import type { Document } from "mongoose";
+import type { Document, Types } from "mongoose";
 
 /* ---------------- USER DOCUMENT ---------------- */
 
 export type UserDoc = Document & {
-  _id: any;
+  _id: Types.ObjectId;
   name: string;
   email: string;
 };

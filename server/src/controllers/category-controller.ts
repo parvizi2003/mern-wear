@@ -3,6 +3,9 @@ import type { Request, Response } from "express";
 import { categoryDTO } from "../dtos/category-dto";
 import { generateSlug } from "../utils/generate-slug";
 import { categorySchema } from "../validators/category-validator";
+import { Product } from "../models/product";
+import { productDTO } from "../dtos/product-dto";
+import { paginationDTO } from "../dtos/pagination-dto";
 
 /* ---------------- GET ALL CATEGORIES ---------------- */
 
@@ -32,6 +35,51 @@ export const getCategoryBySlug = async (req: Request, res: Response) => {
   }
 };
 
+/* ---------------- GET CATEGORY PRODUCTS BY SLUG ---------------- */
+
+export const getCategoryProducts = async (req: Request, res: Response) => {
+  try {
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
+    const skip = (page - 1) * limit;
+
+    const category = await Category.findOne({
+      slug: req.params.slug,
+    }).lean();
+
+    if (!category) {
+      return res.status(404).json({
+        message: "Category not found",
+      });
+    }
+
+    const [products, total] = await Promise.all([
+      Product.find({
+        category: category._id,
+      })
+        .populate("variants")
+        .skip(skip)
+        .limit(limit),
+
+      Product.countDocuments({
+        category: category._id,
+      }),
+    ]);
+
+    return res.status(200).json(
+      paginationDTO({
+        data: products.map(productDTO),
+        page,
+        total,
+        totalPages: Math.ceil(total / limit),
+      }),
+    );
+  } catch (err) {
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
 /* ---------------- CREATE CATEGORY ---------------- */
 
 export const createCategory = async (req: Request, res: Response) => {

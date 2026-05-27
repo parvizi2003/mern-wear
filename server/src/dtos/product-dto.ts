@@ -1,24 +1,41 @@
-import type { Document } from "mongoose";
-import { productVariantDTO } from "./product-variant-dto";
+import { Document, Types } from "mongoose";
+import {
+  productVariantDTO,
+  type ProductVariantDoc,
+} from "./product-variant-dto";
+import { CategoryDoc, categoryDTO } from "./category-dto";
 
 export type ProductDoc = Document & {
-  _id: any;
+  _id: Types.ObjectId;
+
   name: string;
   slug: string;
   description?: string;
   price: number;
-  category: any;
-  variants?: any[];
+
+  category: Types.ObjectId | CategoryDoc;
+
+  variants?: Types.ObjectId[] | ProductVariantDoc[];
 };
 
 export const productDTO = (product: ProductDoc) => {
   return {
-    id: product._id,
+    id: product._id.toString(),
     name: product.name,
     slug: product.slug,
-    description: product.description,
+    description: product.description || "",
     price: product.price,
-    category: product.category,
-    variants: product.variants ? product.variants.map(productVariantDTO) : [],
+
+    category:
+      product.category instanceof Types.ObjectId
+        ? product.category.toString()
+        : categoryDTO(product.category),
+
+    variants:
+      product.variants?.map((variant) =>
+        variant instanceof Types.ObjectId
+          ? variant.toString()
+          : productVariantDTO(variant),
+      ) || [],
   };
 };

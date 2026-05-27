@@ -1,7 +1,7 @@
-import type { Document } from "mongoose";
+import type { Document, Types } from "mongoose";
 
 export type ProductVariantDoc = Document & {
-  _id: any;
+  _id: Types.ObjectId;
   color: {
     name: string;
     code: string;
@@ -11,15 +11,13 @@ export type ProductVariantDoc = Document & {
     size: string;
     stock: number;
   }[];
-  skuPrefix?: string;
 };
 
 export const productVariantDTO = (variant: ProductVariantDoc) => {
   return {
-    id: variant._id,
+    id: variant._id.toString(),
     color: variant.color,
     image: variant.image,
     sizes: variant.sizes,
-    skuPrefix: variant.skuPrefix,
   };
 };

@@ -1,18 +1,24 @@
-import type { Document } from "mongoose";
+import type { Document, Types } from "mongoose";
 
 /* ---------------- TYPES ---------------- */
 
 export type CategoryDoc = Document & {
-  _id: any;
+  _id: Types.ObjectId;
+  name: string;
+  slug: string;
+};
+
+export type CaregoryDto = {
+  id: string;
   name: string;
   slug: string;
 };
 
 /* ---------------- SINGLE DTO ---------------- */
 
-export const categoryDTO = (category: CategoryDoc) => {
+export const categoryDTO = (category: CategoryDoc): CaregoryDto => {
   return {
-    id: category._id,
+    id: category._id.toString(),
     name: category.name,
     slug: category.slug,
   };

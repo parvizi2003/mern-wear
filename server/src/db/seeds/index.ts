@@ -4,14 +4,14 @@ dotenv.config();
 import { connectDB } from "../config";
 import seedAdmin from "./seed-admin";
 import seedCategories from "./seed-categories";
-import seedSuits from "./seedProducts/suits";
+import seedProducts from "./seedProducts";
 
 const seed = async () => {
   try {
     await connectDB();
     await seedAdmin();
     await seedCategories();
-    await seedSuits();
+    await seedProducts();
     console.log("Seeding completed");
 
     process.exit();

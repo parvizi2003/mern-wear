@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Classic Suit",
+    "description": "A timeless tailored suit crafted for formal occasions and modern everyday elegance.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/classic_suit_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "navy blue",
+          "code": "#2b3e5e"
+        },
+        "image": "/uploads/products/classic_suit_navy_blue.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#4d565b"
+        },
+        "image": "/uploads/products/classic_suit_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Tweed Suit",
+    "description": "Textured wool-inspired tailoring with a refined vintage character and structured silhouette.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "brown",
+          "code": "#543d2b"
+        },
+        "image": "/uploads/products/tweed_suit_brown.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#212727"
+        },
+        "image": "/uploads/products/tweed_suit_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "orange",
+          "code": "#77232c"
+        },
+        "image": "/uploads/products/tweed_suit_orange.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Double Breaster Suit",
+    "description": "A sharp double-breasted design featuring bold tailoring and contemporary luxury aesthetics.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/double_breasted_suit_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "tan",
+          "code": "#e9dbb4"
+        },
+        "image": "/uploads/products/double_breasted_suit_tan.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  }
+]

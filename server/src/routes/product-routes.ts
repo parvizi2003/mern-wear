@@ -1,8 +1,9 @@
 import { Router } from "express";
 import {
+  getNewProducts,
   getProductBySlug,
   deleteProduct,
-  getProductsByCategory,
+  getRelatedProducts,
 } from "../controllers/product-controller";
 
 import { isAdmin } from "../middleware/is-admin";
@@ -11,8 +12,9 @@ const router = Router();
 
 /* ---------------- PUBLIC ---------------- */
 
-router.get("/:categorySlug", getProductsByCategory);
-router.get("/slug/:slug", getProductBySlug);
+router.get("/new", getNewProducts);
+router.get("/:slug", getProductBySlug);
+router.get("/:slug/related", getRelatedProducts);
 
 /* ---------------- ADMIN ---------------- */
 
