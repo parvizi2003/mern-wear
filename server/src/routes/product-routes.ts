@@ -13,8 +13,8 @@ const router = Router();
 
 /* ---------------- PUBLIC ---------------- */
 
-router.get("/:slug", getProductBySlug);
 router.get("/new", getNewProducts);
+router.get("/:slug", getProductBySlug);
 router.get("/:slug/related", getRelatedProducts);
 
 /* ---------------- ADMIN ---------------- */
