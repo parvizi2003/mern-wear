@@ -80,6 +80,7 @@ export const getCategoryProducts = async (req: Request, res: Response) => {
     });
   }
 };
+
 /* ---------------- CREATE CATEGORY ---------------- */
 
 export const createCategory = async (req: Request, res: Response) => {
@@ -89,7 +90,10 @@ export const createCategory = async (req: Request, res: Response) => {
     if (!result.success) {
       return res.status(400).json({
         message: "Validation error",
-        errors: result.error.flatten().fieldErrors,
+        errors: result.error.issues.map((issue) => ({
+          field: issue.path.join("."),
+          message: issue.message,
+        })),
       });
     }
     const { name } = result.data;

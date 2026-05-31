@@ -8,6 +8,7 @@ import {
 } from "../controllers/category-controller";
 
 import { isAdmin } from "../middleware/is-admin";
+import { checkAuth } from "../middleware/check-auth";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const router = Router();
 router.get("/", getCategories);
 router.get("/:slug", getCategoryBySlug);
 router.get("/:slug/products", getCategoryProducts);
-router.post("/create", isAdmin, createCategory);
-router.delete("/:id", isAdmin, deleteCategory);
+router.post("/create", checkAuth, isAdmin, createCategory);
+router.delete("/:id", checkAuth, isAdmin, deleteCategory);
 
 export default router;

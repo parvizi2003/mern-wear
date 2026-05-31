@@ -1,10 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import User from "../models/user";
-
-interface JwtPayload {
-  sub: string;
-}
+import { AuthRequest } from "../types/auth-request";
 
 export const isAdmin = async (
   req: Request,
@@ -12,37 +7,18 @@ export const isAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        message: "Unauthorized",
-      });
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-    ) as JwtPayload;
-
-    const user = await User.findById(decoded.sub).select("-password");
+    const AuthReq = req as AuthRequest;
+    const user = AuthReq.user;
 
     if (!user) {
-      return res.status(401).json({
-        message: "User not found",
-      });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     if (user.role !== "admin") {
       return res.status(403).json({
-        message:
-          "Forbidden: You do not have permission to access this resource",
+        message: "Forbidden",
       });
     }
-
-    req.user = user;
 
     next();
   } catch (err) {

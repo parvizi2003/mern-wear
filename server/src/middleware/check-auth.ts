@@ -29,16 +29,15 @@ export const checkAuth = async (
 
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    const user = await User.findById(decoded.sub).select("-password");
+    const user = await User.findById(decoded.sub);
 
     if (!user) {
       return res.status(401).json({
-        message: "User not found",
+        message: "Unauthorized",
       });
     }
 
     req.user = userDTO(user);
-
     next();
   } catch {
     return res.status(401).json({

@@ -107,13 +107,6 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    variants: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ProductVariant",
-      },
-    ],
-
     price: {
       type: Number,
       required: true,
@@ -122,8 +115,17 @@ const productSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+productSchema.virtual("variants", {
+  ref: "ProductVariant",
+  localField: "_id",
+  foreignField: "product",
+});
 
 export const Product = mongoose.model("Product", productSchema);
 

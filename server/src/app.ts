@@ -1,11 +1,15 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import { ensureSession } from "./middleware/ensure-session";
 import UserRouter from "./routes/user-routes";
 import AuthRouter from "./routes/auth-routes";
 import CategoryRouter from "./routes/category-routes";
 import ProductRouter from "./routes/product-routes";
+import CartRouter from "./routes/cart-routes";
+import OrderRouter from "./routes/order-routes";
+import { optionalAuth } from "./middleware/optional-auth";
+import { ensureCart } from "./middleware/ensure-cart";
 
 const app = express();
 
@@ -35,6 +39,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(ensureSession);
 app.use("/uploads", express.static("uploads"));
 
 /* -------------------- ROUTES -------------------- */
@@ -47,6 +52,8 @@ app.use("/auth", AuthRouter);
 app.use("/users", UserRouter);
 app.use("/categories", CategoryRouter);
 app.use("/products", ProductRouter);
+app.use("/cart", optionalAuth, ensureCart, CartRouter);
+app.use("/orders", OrderRouter);
 
 /* -------------------- 404 -------------------- */
 
