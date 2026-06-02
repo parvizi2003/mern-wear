@@ -1,12 +1,12 @@
+import { CartDoc } from "../../dtos/cart-dto";
 import { Cart, CartItem } from "../../models/cart";
 import { recalculateCart } from "./recalculate-cart";
+
 export const mergeCart = async (params: {
   sessionId?: string;
   userId: string;
 }) => {
   const { sessionId, userId } = params;
-
-  if (!sessionId) throw new Error("Session Id not found");
 
   const sessionCart = await Cart.findOne({ sessionId });
 
@@ -43,11 +43,12 @@ export const mergeCart = async (params: {
         size: item.size,
         quantity: item.quantity,
         price: item.price,
+        productSlug: item.productSlug,
       });
     }
   }
 
-  await recalculateCart(userCart.id);
+  await recalculateCart(userCart as CartDoc);
   await CartItem.deleteMany({ cart: sessionCart._id });
   await Cart.findByIdAndDelete(sessionCart._id);
 

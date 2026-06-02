@@ -53,18 +53,17 @@ export const register = async (req: Request, res: Response) => {
       role: "user",
     });
 
+    await mergeCart({
+      sessionId: req.sessionId,
+      userId: user.id,
+    });
+
     const token = generateToken(user._id.toString());
 
     res.cookie("token", token, cookieOptions);
 
-    const userCart = await mergeCart({
-      sessionId: req.sessionId,
-      userId: user.id,
-    });
-    req.cartId = userCart.id;
-    req.user = userDTO(user);
-
     return res.status(201).json({
+      message: "User registered successfully",
       user: userDTO(user),
     });
   } catch (err) {
@@ -91,7 +90,6 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = result.data;
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -102,16 +100,17 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = generateToken(user._id.toString());
-
-    res.cookie("token", token, cookieOptions);
-
     await mergeCart({
       sessionId: req.sessionId,
       userId: user.id,
     });
 
+    const token = generateToken(user._id.toString());
+
+    res.cookie("token", token, cookieOptions);
+
     return res.json({
+      message: "Login successful",
       user: userDTO(user),
     });
   } catch (err) {
@@ -138,7 +137,5 @@ export const logout = (req: Request, res: Response) => {
 
 export const me = (req: Request, res: Response) => {
   const authReq = req as AuthRequest;
-  return res.json({
-    user: authReq.user,
-  });
+  return res.json(authReq.user);
 };

@@ -61,6 +61,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
       item = await CartItem.create({
         cart: cart._id,
         product: productId,
+        productSlug: product.slug,
         variant: variantId,
         size: size,
         price: product.price,
@@ -74,6 +75,38 @@ export const addItemToCart = async (req: Request, res: Response) => {
     });
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const increaseItemQuantity = async (req: Request, res: Response) => {
+  try {
+    const { itemId } = req.params;
+
+    const cart = await getCartFromRequest(req);
+
+    const item = await CartItem.findOne({
+      _id: itemId,
+      cart: cart._id,
+    });
+
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found",
+      });
+    }
+
+    item.quantity += 1;
+    await item.save();
+
+    await recalculateCart(cart);
+
+    return res.json({
+      message: "Item quantity increased successfully",
+    });
+  } catch {
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 

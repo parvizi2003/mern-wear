@@ -15,6 +15,11 @@ const cartItemSchema = new mongoose.Schema(
       required: true,
     },
 
+    productSlug: {
+      type: String,
+      required: true,
+    },
+
     variant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProductVariant",
