@@ -15,6 +15,18 @@ export const productsApi = {
         }),
     })
   },
+  search: (query: string) => {
+    return queryOptions({
+      queryKey: [productsApi.baseKey, "search", query],
+      queryFn: (meta) =>
+        jsonApiInstance<Product[]>(
+          `/${RESOURCE}/search?q=${encodeURIComponent(query)}`,
+          {
+            signal: meta.signal,
+          }
+        ),
+    })
+  },
   getNewProducts: () => {
     return queryOptions({
       queryKey: [productsApi.baseKey, "new"],

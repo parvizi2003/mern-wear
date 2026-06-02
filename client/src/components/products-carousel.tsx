@@ -35,26 +35,26 @@ export default function ProductsCarousel({
               <CarouselNext className="static translate-y-0" />
             </div>
           </div>
-        </Container>
 
-        <CarouselContent className="mx-2 md:mx-1 lg:mx-0">
-          {products.map((product) =>
-            product.variants.map((variant) => (
-              <CarouselItem
-                key={variant.id}
-                className="basis-55 pl-2 md:basis-xs md:pl-3 lg:basis-sm lg:pl-4"
-              >
-                <ProductCard
-                  product={{
-                    ...product,
-                    name: `${product.name} ${variant.color.name}`,
-                    variants: [variant],
-                  }}
-                />
-              </CarouselItem>
-            ))
-          )}
-        </CarouselContent>
+          <CarouselContent>
+            {products.map((product) =>
+              product.variants.map((variant) => (
+                <CarouselItem
+                  key={variant.id}
+                  className="basis-1/2 md:basis-1/3 lg:basis-1/4"
+                >
+                  <ProductCard
+                    product={{
+                      ...product,
+                      name: `${product.name} ${variant.color.name}`,
+                      variants: [variant],
+                    }}
+                  />
+                </CarouselItem>
+              ))
+            )}
+          </CarouselContent>
+        </Container>
       </Carousel>
     </section>
   )

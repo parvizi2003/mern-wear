@@ -8,12 +8,11 @@ import { Spinner } from "@/components/ui/spinner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Field from "@/components/field"
 
 export default function Login() {
   const { handleLogin, loginIsPending, loginError } = useLogin()
-
   const {
     register,
     handleSubmit,
@@ -26,10 +25,13 @@ export default function Login() {
     },
   })
 
+  const location = useLocation()
+  const from = location.state || "/"
+
   return (
     <div className="relative flex min-h-svh flex-col items-center justify-center p-4">
       <Link
-        to="/"
+        to={from}
         className="absolute top-4 left-4 flex w-max items-center gap-1"
       >
         <ArrowLeft size={16} />
@@ -92,6 +94,7 @@ export default function Login() {
           <Link
             to="/auth/register"
             className="font-medium text-primary hover:underline"
+            state={from}
           >
             Sign up
           </Link>

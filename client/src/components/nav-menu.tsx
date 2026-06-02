@@ -16,7 +16,7 @@ export default function NavMenu() {
             className={cn(
               "block px-4 py-2 text-base font-medium tracking-wide transition",
               "hover:opacity-60",
-              pathname === "/" && "bg-muted text-foreground"
+              pathname === "/" && "border-y bg-muted text-foreground"
             )}
           >
             Home
@@ -34,7 +34,7 @@ export default function NavMenu() {
                 className={cn(
                   "block px-4 py-2 text-base font-medium tracking-wide transition",
                   "hover:opacity-60",
-                  isActive && "bg-muted text-foreground"
+                  isActive && "border-y bg-muted text-foreground"
                 )}
               >
                 {item.name}

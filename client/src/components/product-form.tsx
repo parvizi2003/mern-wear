@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import type { Product, ProductVariant } from "@/types"
+import { useAddItemToCart } from "@/api/cart/use-add-item-to-cart"
+import ProductSizeSelector from "./product-size-selector"
+import ProductColorSelector from "./product-color-selector"
 import { useEffect } from "react"
+import { useCart } from "@/api/cart/use-cart"
+import { useIncreaseCartItemQuantity } from "@/api/cart/use-increase-cart-item-quantity"
+import { useDecreaseCartItemQuantity } from "@/api/cart/use-decrease-cart-item-quantity"
+import { Loader2, Minus, Plus } from "lucide-react"
 
 type FormValues = {
   productId: string
@@ -11,13 +17,21 @@ type FormValues = {
   size: string
 }
 
+type ProductFormProps = {
+  product: Product
+  selectedVariant: ProductVariant
+}
+
 export default function ProductForm({
   product,
   selectedVariant,
-}: {
-  product: Product
-  selectedVariant: ProductVariant
-}) {
+}: ProductFormProps) {
+  const { cart } = useCart()
+  const { handleAddItemToCart, addItemIsPending } = useAddItemToCart()
+  const { handleDecreaseCartItemQuantity, decreaseCartItemIsPending } =
+    useDecreaseCartItemQuantity()
+  const { handleIncreaseCartItemQuantity, increaseCartItemIsPending } =
+    useIncreaseCartItemQuantity()
   const navigate = useNavigate()
 
   const { watch, setValue, handleSubmit, reset } = useForm<FormValues>({
@@ -31,20 +45,18 @@ export default function ProductForm({
   const variantId = watch("variantId")
   const size = watch("size")
 
+  const cartItem = cart?.items.find(
+    (item) =>
+      item.product === product.id &&
+      item.variant === variantId &&
+      item.size === size
+  )
+
   const currentVariant =
     product.variants.find((v) => v.id === variantId) || selectedVariant
 
-  const setVariant = (id: string) => {
-    setValue("variantId", id)
-    setValue("size", "")
-
-    navigate(`/products/${product.slug}?variant=${id}`, { replace: true })
-  }
-
   const onSubmit = (values: FormValues) => {
-    console.log({
-      ...values,
-    })
+    handleAddItemToCart(values)
   }
 
   useEffect(() => {
@@ -53,91 +65,73 @@ export default function ProductForm({
       variantId: selectedVariant.id,
       size: "",
     })
-  }, [product.id, selectedVariant.id, reset])
+  }, [selectedVariant.id, product.id, reset])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-6">
-        {/* COLORS (RADIO STYLE) */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium">
-            {currentVariant.color.name.toUpperCase()}
-          </h3>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <ProductColorSelector
+        product={product}
+        variantId={variantId}
+        onChange={(id) => {
+          setValue("variantId", id)
+          setValue("size", "")
+          navigate(`?variant=${id}`, { replace: true })
+        }}
+      />
 
-          <div className="flex gap-2">
-            {product.variants.map((v) => {
-              const isActive = v.id === variantId
+      <ProductSizeSelector
+        sizes={currentVariant.sizes}
+        value={size}
+        onChange={(s) => setValue("size", s)}
+      />
 
-              return (
-                <label key={v.id}>
-                  <input
-                    type="radio"
-                    name="variant"
-                    value={v.id}
-                    checked={isActive}
-                    onChange={() => setVariant(v.id)}
-                    className="hidden"
-                  />
+      {cartItem ? (
+        <div className="flex w-full items-center justify-center gap-4 bg-primary p-1 text-primary-foreground">
+          <Button
+            type="button"
+            size="icon-sm"
+            onClick={() => handleDecreaseCartItemQuantity(cartItem.id)}
+            disabled={decreaseCartItemIsPending}
+            className="bg-primary-foreground text-primary"
+          >
+            {decreaseCartItemIsPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Minus size={16} />
+            )}
+          </Button>
 
-                  <div
-                    className={cn(
-                      "h-8 w-8 transition",
-                      isActive
-                        ? "ring-1 ring-foreground ring-offset-1 ring-offset-background"
-                        : "hover:ring-1 hover:ring-ring hover:ring-offset-1 hover:ring-offset-background"
-                    )}
-                    style={{ backgroundColor: v.color.code }}
-                  />
-                </label>
-              )
-            })}
-          </div>
+          <span>{cartItem.quantity}</span>
+
+          <Button
+            type="button"
+            size="icon-sm"
+            onClick={() => handleIncreaseCartItemQuantity(cartItem.id)}
+            disabled={increaseCartItemIsPending}
+            className="bg-primary-foreground text-primary"
+          >
+            {increaseCartItemIsPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Plus size={16} />
+            )}
+          </Button>
         </div>
-
-        {/* SIZES (RADIO STYLE) */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium">Sizes</h3>
-
-          <div className="flex flex-wrap gap-2">
-            {currentVariant.sizes.map((s) => {
-              const isSelected = size === s.size
-              const isOutOfStock = s.stock <= 0
-
-              return (
-                <label key={s.size}>
-                  <input
-                    type="radio"
-                    name="size"
-                    value={s.size}
-                    disabled={isOutOfStock}
-                    checked={isSelected}
-                    onChange={() =>
-                      setValue("size", s.size, { shouldValidate: true })
-                    }
-                    className="hidden"
-                  />
-
-                  <div
-                    className={cn(
-                      "h-8 w-8 bg-card text-center text-xs leading-8 transition",
-                      isSelected
-                        ? "ring-1 ring-foreground ring-offset-1 ring-offset-background"
-                        : "hover:ring-1 hover:ring-ring hover:ring-offset-1 hover:ring-offset-background"
-                    )}
-                  >
-                    {s.size}
-                  </div>
-                </label>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* SUBMIT */}
-        <Button type="submit" disabled={!size} className="w-full">
-          {!size ? "Select a size" : "Add to cart"}
+      ) : (
+        <Button
+          type="submit"
+          disabled={!size || addItemIsPending}
+          className="w-full"
+        >
+          {!size ? (
+            "Select a size"
+          ) : addItemIsPending ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            "Add to cart"
+          )}
         </Button>
-      </div>
+      )}
     </form>
   )
 }

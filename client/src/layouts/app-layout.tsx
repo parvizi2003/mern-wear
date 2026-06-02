@@ -12,7 +12,7 @@ export default function AppLayout() {
   return (
     <>
       <Header />
-      <main className="mt-15 min-h-[calc(100vh-60px)]">
+      <main>
         <Outlet />
       </main>
       <Footer />

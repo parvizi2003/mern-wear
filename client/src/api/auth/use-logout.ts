@@ -1,19 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
 import { authApi } from "."
-
-import { useNavigate } from "react-router-dom"
 import { queryClient } from "../query-client"
+import { cartApi } from "../cart"
 
 export function useLogout() {
-  const navigate = useNavigate()
-
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
 
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["auth", "me"] })
-
-      navigate("/", { replace: true })
+      queryClient.removeQueries({ queryKey: [authApi.baseKey, "me"] })
+      queryClient.invalidateQueries({ queryKey: [cartApi.baseKey] })
     },
   })
 

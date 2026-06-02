@@ -24,9 +24,9 @@ export default function ProductCard({ product, isLoading }: Props) {
       to={`/products/${product.slug}?variant=${encodeURIComponent(product.variants[0].id)}`}
       className="group block space-y-3 pb-5"
     >
-      <div className="aspect-3/4 w-full overflow-hidden bg-zinc-100">
+      <div className="aspect-3/4 w-full">
         <Image
-          src={`${import.meta.env.VITE_API_URL}${product.variants[0].image}`}
+          src={product.variants[0].image}
           alt={`${product.name} ${product.variants[0].color.name}`}
         />
       </div>

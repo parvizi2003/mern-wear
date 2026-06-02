@@ -9,11 +9,10 @@ import Field from "@/components/field"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export default function Register() {
   const { handleRegister, registerIsPending, registerError } = useRegister()
-
   const {
     register,
     handleSubmit,
@@ -28,10 +27,13 @@ export default function Register() {
     },
   })
 
+  const location = useLocation()
+  const from = location.state || "/"
+
   return (
     <div className="relative flex min-h-svh flex-col items-center justify-center p-4">
       <Link
-        to="/"
+        to={from}
         className="absolute top-4 left-4 flex w-max items-center gap-1"
       >
         <ArrowLeft size={16} />
@@ -112,6 +114,7 @@ export default function Register() {
           <Link
             to="/auth/login"
             className="font-medium text-primary hover:underline"
+            state={from}
           >
             Log in
           </Link>

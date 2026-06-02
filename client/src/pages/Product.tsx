@@ -24,15 +24,12 @@ export default function Product() {
     product.variants[0]
 
   return (
-    <>
+    <div className="pt-15">
       <section>
         <Container className="flex flex-col justify-center gap-4 pt-4 pb-8 md:flex-row md:gap-6 lg:gap-8">
           {/* IMAGE */}
-          <div className="aspect-3/4 max-h-[calc(100svh-60px-32px)] bg-zinc-100">
-            <Image
-              src={`${import.meta.env.VITE_API_URL}${selectedVariant.image}`}
-              alt={product.name}
-            />
+          <div className="aspect-3/4 max-h-[calc(100svh-60px-32px)]">
+            <Image src={selectedVariant.image} alt={product.name} />
           </div>
 
           {/* INFO */}
@@ -52,6 +49,6 @@ export default function Product() {
         isLoading={relatedProductsIsLoading}
         title="Related products"
       />
-    </>
+    </div>
   )
 }

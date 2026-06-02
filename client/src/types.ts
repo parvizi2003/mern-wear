@@ -1,7 +1,46 @@
 export type User = {
-  _id: string
+  id: string
   name: string
   email: string
+}
+
+export interface OrderItem {
+  id: string
+  order: string
+  product: string
+  variant: string
+  productName: string
+  color: string
+  size: string
+  quantity: number
+  price: number
+}
+
+export interface Order {
+  id: string
+  user: string
+  userEmail: string
+  itemsCount: number
+  total: number
+  status: "pending" | "success" | "cancelled"
+  items: OrderItem[]
+}
+
+export interface CartItem {
+  id: string
+  product: string
+  productSlug: string
+  variant: string
+  size: string
+  quantity: number
+  price: number
+}
+
+export interface Cart {
+  id: string
+  itemsCount: number
+  total: number
+  items: CartItem[] | []
 }
 
 export interface Category {

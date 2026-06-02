@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query"
 import { authApi } from "."
 
 export function useUser() {
-  const { data, isLoading } = useQuery({
+  const { data: user, isLoading } = useQuery({
     ...authApi.getMe(),
     retry: false,
     refetchOnWindowFocus: false,
   })
 
-  return { user: data?.user, isLoading }
+  return { user, isLoading }
 }

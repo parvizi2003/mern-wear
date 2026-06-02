@@ -5,11 +5,11 @@ export default function Image({ src, alt }: { src: string; alt: string }) {
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <>
+    <div className="relative h-full w-full overflow-hidden">
       {!loaded && <Skeleton className="absolute inset-0" />}
 
       <img
-        src={src}
+        src={import.meta.env.VITE_API_URL + src}
         alt={alt}
         loading="lazy"
         onLoad={() => setLoaded(true)}
@@ -17,6 +17,6 @@ export default function Image({ src, alt }: { src: string; alt: string }) {
           loaded ? "opacity-100" : "opacity-0"
         }`}
       />
-    </>
+    </div>
   )
 }

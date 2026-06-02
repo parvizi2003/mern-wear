@@ -25,7 +25,7 @@ export const authApi = {
     return queryOptions({
       queryKey: [authApi.baseKey, "me"],
       queryFn: (meta) =>
-        jsonApiInstance<{ user: User }>(`/${RESOURCE}/me`, {
+        jsonApiInstance<User>(`/${RESOURCE}/me`, {
           signal: meta.signal,
         }),
     })

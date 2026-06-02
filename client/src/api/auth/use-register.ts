@@ -1,15 +1,23 @@
 import { useMutation } from "@tanstack/react-query"
 import { authApi } from "."
 
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { ApiError } from "../api-instance"
+import { queryClient } from "../query-client"
+import { cartApi } from "../cart"
 
 export function useRegister() {
   const navigate = useNavigate()
+  const location = useLocation()
+
   const registerMutation = useMutation({
     mutationFn: authApi.register,
-    onSuccess: async () => {
-      navigate("/")
+    onSuccess: (data) => {
+      queryClient.setQueryData([authApi.baseKey, "me"], data.user)
+      queryClient.invalidateQueries({ queryKey: [authApi.baseKey, "me"] })
+      queryClient.invalidateQueries({ queryKey: [cartApi.baseKey] })
+
+      navigate(location.state || "/")
     },
 
     onError: (err: any) => {

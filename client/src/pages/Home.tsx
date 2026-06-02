@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <section
-        className="relative h-[calc(100vh-60px)] bg-cover"
+        className="relative mt-15 h-[calc(100vh-60px)] bg-cover"
         style={{
           backgroundImage: `url(${intro})`,
           backgroundPosition: "40% 30%",
