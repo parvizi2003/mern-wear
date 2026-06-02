@@ -2,6 +2,27 @@ import type { Request, Response } from "express";
 import { Product } from "../models/product";
 import { productDTO } from "../dtos/product-dto";
 
+/* ---------------- SEARCH PRODUCT  ---------------- */
+
+export const search = async (req: Request, res: Response) => {
+  try {
+    const search = String(req.query.q || "").trim();
+
+    const products = await Product.find({
+      name: {
+        $regex: search,
+        $options: "i",
+      },
+    })
+      .limit(5)
+      .populate("variants");
+
+    return res.json(products.map(productDTO));
+  } catch (err) {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 /* ---------------- GET PRODUCT BY SLUG ---------------- */
 
 export const getProductBySlug = async (req: Request, res: Response) => {
