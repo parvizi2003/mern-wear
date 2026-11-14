@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Classic Jacket",
+    "description": "A timeless tailored jacket crafted for formal occasions and modern everyday elegance.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/classic_jacket_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "navy blue",
+          "code": "#2b3e5e"
+        },
+        "image": "/uploads/products/classic_jacket_navy_blue.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#4d565b"
+        },
+        "image": "/uploads/products/classic_jacket_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Tweed Jacket",
+    "description": "Textured wool-inspired tailoring with a refined vintage character and structured silhouette.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "brown",
+          "code": "#543d2b"
+        },
+        "image": "/uploads/products/tweed_jacket_brown.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "charcoal gray",
+          "code": "#212727"
+        },
+        "image": "/uploads/products/tweed_jacket_charcoal_gray.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "orange",
+          "code": "#77232c"
+        },
+        "image": "/uploads/products/tweed_jacket_orange.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Double Breaster Jacket",
+    "description": "A sharp double-breasted design featuring bold tailoring and contemporary luxury aesthetics.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/double_breasted_jacket_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "tan",
+          "code": "#e9dbb4"
+        },
+        "image": "/uploads/products/double_breasted_jacket_tan.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  }
+]

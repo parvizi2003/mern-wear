@@ -1,10 +1,11 @@
 import type { Request, Response } from "express";
 import { loginUser, registerUser } from "../services/auth.service.js";
 import type { RegisterInput, LoginInput } from "../schemas/auth.schema.js";
+import { mergeCarts } from "../services/cart.service.js";
 
 export const register = async (
   data: RegisterInput,
-
+  req: Request,
   res: Response,
 ) => {
   const { user, token } = await registerUser(data);
@@ -16,10 +17,14 @@ export const register = async (
     maxAge: 24 * 60 * 60 * 1000,
   });
 
+  if (req.sessionId) {
+    await mergeCarts(req.sessionId, user.id);
+  }
+
   res.status(201).json({ user });
 };
 
-export const login = async (data: LoginInput, res: Response) => {
+export const login = async (data: LoginInput, req: Request, res: Response) => {
   const { user, token } = await loginUser(data);
 
   res.cookie("token", token, {
@@ -28,6 +33,10 @@ export const login = async (data: LoginInput, res: Response) => {
     sameSite: "lax",
     maxAge: 24 * 60 * 60 * 1000,
   });
+
+  if (req.sessionId) {
+    await mergeCarts(req.sessionId, user.id);
+  }
 
   res.status(200).json({ user });
 };

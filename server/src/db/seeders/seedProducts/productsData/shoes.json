@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Leather Shoes",
+    "description": "Minimal leather shoes crafted with a sleek silhouette for everyday smart styling.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/leather_shoes_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Leather Oxford Shoes",
+    "description": "Classic oxford shoes featuring polished leather construction and timeless formal appeal.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/leather_oxford_shoes_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "brown",
+          "code": "#43312d"
+        },
+        "image": "/uploads/products/leather_oxford_shoes_brown.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "tan",
+          "code": "#856046"
+        },
+        "image": "/uploads/products/leather_oxford_shoes_tan.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Leather Lug Penny Loafers Shoes",
+    "description": "Modern penny loafers with chunky lug soles combining elegance and contemporary streetwear edge.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/leather_lug_penny_loafers_shoes_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Leather Penny Loafers Shoes",
+    "description": "Refined penny loafers with soft leather texture and lightweight comfort for versatile wear.",
+    "price": 200,
+    "variants": [
+      {
+        "color": {
+          "name": "calum white",
+          "code": "#e9dbb4"
+        },
+        "image": "/uploads/products/leather_penny_loafers_shoes_calum_white.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  }
+]

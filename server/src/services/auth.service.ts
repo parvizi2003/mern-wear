@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
+import { User } from "../models/user.model.js";
 
 import type { RegisterInput, LoginInput } from "../schemas/auth.schema.js";
 import type { AuthServiceResult } from "../dtos/auth.dto.js";

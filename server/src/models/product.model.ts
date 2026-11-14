@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+export interface IProductVariant {
+  product: mongoose.Types.ObjectId;
+  color: {
+    name: string;
+    code: string;
+  };
+  image: string;
+  sizes: {
+    size: string;
+    stock: number;
+  }[];
+}
+
+export interface IProduct {
+  name: string;
+  slug: string;
+  description: string;
+  category: mongoose.Types.ObjectId;
+  price: number;
+}
+
 const sizeSchema = new mongoose.Schema(
   {
     size: {
@@ -127,9 +148,9 @@ productSchema.virtual("variants", {
   foreignField: "product",
 });
 
-export const Product = mongoose.model("Product", productSchema);
+export const Product = mongoose.model<IProduct>("Product", productSchema);
 
-export const ProductVariant = mongoose.model(
+export const ProductVariant = mongoose.model<IProductVariant>(
   "ProductVariant",
   productVariantSchema,
 );

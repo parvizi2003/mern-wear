@@ -1,6 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
+import { User } from "../models/user.model.js";
+import { UserDto } from "../dtos/user.dto.js";
+import { AppError } from "../utils/app-error.js";
 
 interface JwtPayload {
   userId: string;
@@ -22,7 +24,7 @@ export const protect = async (
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
-      throw new Error("JWT_SECRET is not defined");
+      throw new AppError("JWT_SECRET is not defined", 500);
     }
 
     const decoded = jwt.verify(token, secret) as JwtPayload;
@@ -34,7 +36,12 @@ export const protect = async (
       return;
     }
 
-    req.user = user;
+    const userDto: UserDto = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+    };
+    req.user = userDto;
     next();
   } catch (error) {
     res.status(401).json({ message: "Invalid or expired token" });

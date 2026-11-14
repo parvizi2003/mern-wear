@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Classic Shirt",
+    "description": "A clean and versatile shirt tailored for everyday wear with a modern minimal silhouette.",
+    "price": 300,
+    "variants": [
+      {
+        "color": {
+          "name": "white",
+          "code": "#ffffff"
+        },
+        "image": "/uploads/products/classic_shirt_white.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      },
+      {
+        "color": {
+          "name": "black",
+          "code": "#2b2b2b"
+        },
+        "image": "/uploads/products/classic_shirt_black.webp",
+        "sizes": [
+          { "size": "S", "stock": 10 },
+          { "size": "M", "stock": 10 },
+          { "size": "L", "stock": 10 }
+        ]
+      }
+    ]
+  }
+]
