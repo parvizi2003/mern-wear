@@ -1,5 +1,9 @@
 import type { Request, Response } from "express";
-import { loginUser, registerUser } from "../services/auth.service.js";
+import {
+  loginAdmin,
+  loginUser,
+  registerUser,
+} from "../services/auth.service.js";
 import type { RegisterInput, LoginInput } from "../schemas/auth.schema.js";
 import { mergeCarts } from "../services/cart.service.js";
 
@@ -37,6 +41,23 @@ export const login = async (data: LoginInput, req: Request, res: Response) => {
   if (req.sessionId) {
     await mergeCarts(req.sessionId, user.id);
   }
+
+  res.status(200).json({ user });
+};
+
+export const loginAdminController = async (
+  data: LoginInput,
+  _req: Request,
+  res: Response,
+) => {
+  const { user, token } = await loginAdmin(data);
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
 
   res.status(200).json({ user });
 };

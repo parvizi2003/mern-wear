@@ -4,6 +4,12 @@ import { CategoryDto } from "../dtos/category.dto.js";
 import { Product } from "../models/product.model.js";
 import { PopulatedVariant } from "../dtos/product.dto.js";
 import { ProductDto } from "../dtos/product.dto.js";
+import { categoryInput } from "../schemas/category.schema.js";
+import {
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "../services/category.servise.js";
 
 export const getCategories = async (req: Request, res: Response) => {
   const categories = await Category.find().sort({ name: 1 });
@@ -48,20 +54,30 @@ export const getCategoryProducts = async (req: Request, res: Response) => {
   return res.status(200).json(productsDto);
 };
 
-// export const createCategory = async (req: Request, res: Response) => {
+export const create = async (
+  data: categoryInput,
+  _req: Request,
+  res: Response,
+) => {
+  const category = await createCategory(data);
 
-//     const { name } = req.body;
-//     const slug = name.toLowerCase().replace(/ /g, "-");
+  res.status(201).json(category);
+};
 
-//     const existingCategory = await Category.findOne({ slug });
+export const update = async (
+  data: categoryInput,
+  req: Request,
+  res: Response,
+) => {
+  const id = req.params.id as string;
+  const category = await updateCategory(data, id);
+  res.status(200).json(category);
+};
 
-//     if (existingCategory) {
-//       return res.status(400).json({ message: "Category already exists" });
-//     }
+export const remove = async (req: Request, res: Response) => {
+  const id = req.params.id as string;
 
-//     const category = new Category({ name, slug });
-//     await category.save();
+  const categoryId = await deleteCategory(id);
 
-//     res.status(201).json(category);
-
-// };
+  res.status(200).json(categoryId);
+};

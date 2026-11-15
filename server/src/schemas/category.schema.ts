@@ -1,0 +1,11 @@
+import { z } from "zod";
+
+export const categorySchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Category name must contain at least 2 characters")
+    .max(50, "Category name must not exceed 50 characters"),
+});
+
+export type categoryInput = z.infer<typeof categorySchema>;

@@ -81,3 +81,33 @@ export const loginUser = async ({
     token,
   };
 };
+
+export const loginAdmin = async ({
+  email,
+  password,
+}: LoginInput): Promise<AuthServiceResult> => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const user = await User.findOne({ email: normalizedEmail, role: "admin" });
+
+  if (!user) {
+    throw new AppError("Invalid credentials", 401);
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new AppError("Invalid credentials", 401);
+  }
+
+  const token = generateToken(user._id.toString());
+
+  return {
+    user: {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+    },
+    token,
+  };
+};

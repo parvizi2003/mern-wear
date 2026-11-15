@@ -40,6 +40,7 @@ export const protect = async (
       id: user._id.toString(),
       name: user.name,
       email: user.email,
+      role: user.role,
     };
     req.user = userDto;
     next();
