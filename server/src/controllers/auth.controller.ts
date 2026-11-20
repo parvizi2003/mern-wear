@@ -6,6 +6,7 @@ import {
 } from "../services/auth.service.js";
 import type { RegisterInput, LoginInput } from "../schemas/auth.schema.js";
 import { mergeCarts } from "../services/cart.service.js";
+import { UserDto } from "../dtos/user.dto.js";
 
 export const register = async (
   data: RegisterInput,
@@ -41,6 +42,12 @@ export const login = async (data: LoginInput, req: Request, res: Response) => {
   if (req.sessionId) {
     await mergeCarts(req.sessionId, user.id);
   }
+
+  res.status(200).json({ user });
+};
+
+export const getMe = async (req: Request, res: Response) => {
+  const user = req.user as UserDto;
 
   res.status(200).json({ user });
 };

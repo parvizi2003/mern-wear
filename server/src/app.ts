@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import path from "node:path";
-
+import cors from "cors";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 import healthRoutes from "./routes/health.routes.js";
@@ -14,6 +14,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.use("/api/health", healthRoutes);
